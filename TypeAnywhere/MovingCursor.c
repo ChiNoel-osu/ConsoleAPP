@@ -2,13 +2,13 @@
 #include <stdio.h>										//Typing beyond the window width which switches lines can cause bugs.
 #include <Windows.h>									//
 #include <conio.h>										//
-														//
+														//To Do:
 main()													//
-{														//
+{
 Start:
 	system("cls");
 	char key;
-	unsigned int PosX = 0, PosY = 0, EscCount = 0;
+	unsigned int PosX = 0, PosY = 0, EscCount = 0, KeyCount = 0;
 	SetConsoleTitle("Type Anywhere! Arrow key to move, tap Esc to clear, hold Esc to exit.");
 	gotoxy(PosX, PosY);
 	CONSOLE_CURSOR_INFO CsrInfo;	//Set cursor parameters
@@ -30,6 +30,7 @@ Start:
 			system("cls");	//Clear
 			PosX = 0;
 			PosY = 0;
+			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
 			EscCount++;		//EscCount+2
 			if (++EscCount > 5)	goto Exit;	//Hold to exit
 			break;
@@ -37,18 +38,19 @@ Start:
 			putchar('\t');
 			unsigned int TabIndent = PosX % 8;
 			PosX += 8 - TabIndent;
-			gotoxy(PosX, PosY);
+			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
 			break;
 		case 13:	//Enter
 			putchar('\n');
 			PosX = 0;
 			PosY++;
+			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
 			break;
 		case 8:		//BackSpace
 			if (!PosX)	break;	//Prevent going negative
 			printf("\b ");	//'\b' to go back one block
 			PosX--;
-			gotoxy(PosX, PosY);
+			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
 			break;
 		case -32:	//-32 prefix								//	Well this is rather complicate.
 			char Minus32=_getch();								//	You see, when using arrow keys
@@ -57,43 +59,43 @@ Start:
 			case 72:	//Up									//conflict with some letters.
 				if (!PosY)	break;	//Prevent going negative	//	'-32' is there to differentiate
 				PosY--;											//between a funcion key or a normal
-				gotoxy(PosX, PosY);								//letter key.
-				break;
+				break;											//letter key.
 			case 80:	//Down
 				PosY++;
-				gotoxy(PosX, PosY);
 				break;
 			case 75:	//Left
 				if (!PosX)	break;	//Prevent going negative
 				PosX--;
-				gotoxy(PosX, PosY);
 				break;
 			case 77:	//Right
 				PosX++;
-				gotoxy(PosX, PosY);
 				break;
 			case 83:	//Delete
 				if (!PosX)	break;	//Prevent going negative
 				printf("\b ");	//'\b' to go back one block
 				PosX--;
-				gotoxy(PosX, PosY);
 				break;
 			default:
 				break;
 			}
+			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
 			break;
 		case 0:		//0 prefix
+			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
 			break;
 		default:
 			printf("%c", key);
 			PosX++;
 			break;
 		}
+		gotoxy(PosX, PosY);
+		KeyCount++;
 	}
 Exit:
 	CsrInfo.dwSize = 1;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &CsrInfo);
-	puts("Press Enter to return, other keys to exit.");
+	printf("You've typed %d keys.\n", ++KeyCount);
+	puts("Press Enter to restart, other keys to exit.");
 	while (key = _getch())
 	{
 		if (key == 27)

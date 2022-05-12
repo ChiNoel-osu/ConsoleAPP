@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BoxAndLoadingAnimation", "C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TypeAnywhere", "..\TypeAnywhere\TypeAnywhere.vcxproj", "{4EFAF2D0-7DED-4ED5-9CF5-5F49A046DEDE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MouseEventThing", "..\MouseEventThing\MouseEventThing.vcxproj", "{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{4EFAF2D0-7DED-4ED5-9CF5-5F49A046DEDE}.Release|x64.Build.0 = Release|x64
 		{4EFAF2D0-7DED-4ED5-9CF5-5F49A046DEDE}.Release|x86.ActiveCfg = Release|Win32
 		{4EFAF2D0-7DED-4ED5-9CF5-5F49A046DEDE}.Release|x86.Build.0 = Release|Win32
+		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Debug|x64.ActiveCfg = Debug|x64
+		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Debug|x64.Build.0 = Debug|x64
+		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Debug|x86.ActiveCfg = Debug|Win32
+		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Debug|x86.Build.0 = Debug|Win32
+		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Release|x64.ActiveCfg = Release|x64
+		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Release|x64.Build.0 = Release|x64
+		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Release|x86.ActiveCfg = Release|Win32
+		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
