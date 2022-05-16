@@ -17,7 +17,7 @@ main()
 	putchar('\n');
 	puts("1 - Tiny   5 * 5");
 	puts("2 - Easy   17* 9");
-	puts("3 - Medium 33*17");
+	puts("3 - Medium 29*13");
 	puts("4 - Hard   43*21");
 	puts("Other - Exit");
 	GotoXY(0, 0);
@@ -36,8 +36,8 @@ main()
 		BoxSizeX = 19, BoxSizeY = 11;
 		break;
 	case '3':
-		system("mode con cols=72 lines=23");
-		BoxSizeX = 35, BoxSizeY = 19;
+		system("mode con cols=64 lines=19");
+		BoxSizeX = 31, BoxSizeY = 15;
 		break;
 	case '4':
 		system("mode con cols=92 lines=27");		//Set the correct window size
