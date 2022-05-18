@@ -9,7 +9,8 @@ Start:
 	system("cls");
 	char key;
 	unsigned int PosX = 0, PosY = 0, EscCount = 0, KeyCount = 0;
-	SetConsoleTitle("Type Anywhere! Arrow key to move, tap Esc to clear, hold Esc to exit.");
+	BOOL QuickEditFlag = FALSE;
+	SetConsoleTitle("Type Anywhere! Arrow key to move, tap Esc to clear, hold Esc to exit. F12 to toggle quick edit mode.");
 	gotoxy(PosX, PosY);
 	CONSOLE_CURSOR_INFO CsrInfo;	//Set cursor parameters
 	CsrInfo.bVisible = 1;
@@ -22,7 +23,7 @@ Start:
 	//}
 	while (TRUE)	//Main loop
 	{
-		if(EscCount>0)	EscCount--;	//Works together with Hold to exit part, user can't easily fuck this up now.
+		if (EscCount > 0)	EscCount--;	//Works together with Hold to exit part, user can't easily fuck this up now.
 		key = _getch();
 		switch (key)
 		{
@@ -53,7 +54,7 @@ Start:
 			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
 			break;
 		case -32:	//-32 prefix								//	Well this is rather complicate.
-			char Minus32=_getch();								//	You see, when using arrow keys
+			char Minus32 = _getch();							//	You see, when using arrow keys
 			switch (Minus32)									//there'll be a '-32' before the actual
 			{													//key code, and that key code can
 			case 72:	//Up									//conflict with some letters.
@@ -75,6 +76,17 @@ Start:
 				printf("\b ");	//'\b' to go back one block
 				PosX--;
 				break;
+			case -122:	//F12	Toggle quick edit mode & cursor select
+				if (QuickEditFlag == TRUE)			//Enable
+				{
+					SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_QUICK_EDIT_MODE | ENABLE_EXTENDED_FLAGS);
+					QuickEditFlag = FALSE;
+				}
+				else if (QuickEditFlag == FALSE)	//Disable
+				{
+					SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_EXTENDED_FLAGS);
+					QuickEditFlag = TRUE;
+				}
 			default:
 				break;
 			}
