@@ -1,33 +1,45 @@
 #define _CRT_SECURE_NO_WARNINGS							//Issues:
 #include <stdio.h>										//Typing beyond the window width which switches lines can cause bugs.
-#include <Windows.h>									//
-#include <conio.h>										//
-														//To Do:
-main()													//
+#include <Windows.h>									//When in mouse-select-curcor mode, upon hitting Esc, said feature will not work until F12 twice
+
+main()
 {
 Start:
 	system("cls");
 	char key;
 	unsigned int PosX = 0, PosY = 0, EscCount = 0, KeyCount = 0;
 	BOOL QuickEditFlag = FALSE;
+	SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_QUICK_EDIT_MODE | ENABLE_EXTENDED_FLAGS);
 	SetConsoleTitle("Type Anywhere! Arrow key to move, tap Esc to clear, hold Esc to exit. F12 to toggle quick edit mode.");
 	gotoxy(PosX, PosY);
 	CONSOLE_CURSOR_INFO CsrInfo;	//Set cursor parameters
+	INPUT_RECORD InRecord;									//Event structure
+#define MousePos InRecord.Event.MouseEvent.dwMousePosition	//Save myself some time
+	LPDWORD EvntNum;
 	CsrInfo.bVisible = 1;
 	CsrInfo.dwSize = 100;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &CsrInfo);
-	//while (1)
-	//{
-	//	key = _getch();
-	//	printf("%d\n", key);
-	//}
+
 	while (TRUE)	//Main loop
 	{
 		if (EscCount > 0)	EscCount--;	//Works together with Hold to exit part, user can't easily fuck this up now.
-		key = _getch();
+		while (TRUE)
+		{
+			ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE), &InRecord, 1, &EvntNum);	//Scan for input
+			if (InRecord.Event.MouseEvent.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED)	//LMB. Also accepts mouse moving
+			{
+				PosX = MousePos.X; PosY = MousePos.Y;	//Mouse click position = cursor position
+				gotoxy(PosX, PosY);
+			}
+			if (key = InRecord.Event.KeyEvent.wVirtualKeyCode)
+			{
+				if (InRecord.Event.KeyEvent.bKeyDown == FALSE)	continue;	//Ignore key release event
+				break;
+			}
+		}
 		switch (key)
 		{
-		case 27:	//Esc
+		case VK_ESCAPE:
 			system("cls");	//Clear
 			PosX = 0;
 			PosY = 0;
@@ -35,68 +47,69 @@ Start:
 			EscCount++;		//EscCount+2
 			if (++EscCount > 5)	goto Exit;	//Hold to exit
 			break;
-		case 9:		//Tab
+		case VK_TAB:
 			putchar('\t');
 			unsigned int TabIndent = PosX % 8;
 			PosX += 8 - TabIndent;
-			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
+			if (KeyCount >= 0)	KeyCount--;
 			break;
-		case 13:	//Enter
+		case VK_RETURN:
 			putchar('\n');
 			PosX = 0;
 			PosY++;
-			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
+			if (KeyCount >= 0)	KeyCount--;
 			break;
-		case 8:		//BackSpace
+		case VK_BACK:
 			if (!PosX)	break;	//Prevent going negative
 			printf("\b ");	//'\b' to go back one block
 			PosX--;
-			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
+			if (KeyCount >= 0)	KeyCount--;
 			break;
-		case -32:	//-32 prefix								//	Well this is rather complicate.
-			char Minus32 = _getch();							//	You see, when using arrow keys
-			switch (Minus32)									//there'll be a '-32' before the actual
-			{													//key code, and that key code can
-			case 72:	//Up									//conflict with some letters.
-				if (!PosY)	break;	//Prevent going negative	//	'-32' is there to differentiate
-				PosY--;											//between a funcion key or a normal
-				break;											//letter key.
-			case 80:	//Down
-				PosY++;
-				break;
-			case 75:	//Left
-				if (!PosX)	break;	//Prevent going negative
-				PosX--;
-				break;
-			case 77:	//Right
-				PosX++;
-				break;
-			case 83:	//Delete
-				if (!PosX)	break;	//Prevent going negative
-				printf("\b ");	//'\b' to go back one block
-				PosX--;
-				break;
-			case -122:	//F12	Toggle quick edit mode & cursor select
-				if (QuickEditFlag == TRUE)			//Enable
-				{
-					SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_QUICK_EDIT_MODE | ENABLE_EXTENDED_FLAGS);
-					QuickEditFlag = FALSE;
-				}
-				else if (QuickEditFlag == FALSE)	//Disable
-				{
-					SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_EXTENDED_FLAGS);
-					QuickEditFlag = TRUE;
-				}
-			default:
-				break;
+		case VK_UP:
+			if (KeyCount >= 0)	KeyCount--;
+			if (!PosY)	break;
+			PosY--;
+			break;
+		case VK_DOWN:
+			if (KeyCount >= 0)	KeyCount--;
+			PosY++;
+			break;
+		case VK_LEFT:
+			if (KeyCount >= 0)	KeyCount--;
+			if (!PosX)	break;
+			PosX--;
+			break;
+		case VK_RIGHT:
+			if (KeyCount >= 0)	KeyCount--;
+			PosX++;
+			break;
+		case VK_DELETE:
+			if (KeyCount >= 0)	KeyCount--;
+			if (!PosX)	break;
+			printf("\b ");
+			PosX--;
+			break;
+		case VK_F12:	//Toggle quick edit mode
+			if (KeyCount >= 0)	KeyCount--;
+			if (QuickEditFlag == TRUE)			//Enable
+			{
+				SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_QUICK_EDIT_MODE | ENABLE_EXTENDED_FLAGS);
+				QuickEditFlag = FALSE;
 			}
-			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
+			else if (QuickEditFlag == FALSE)	//Disable
+			{
+				SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT);
+				QuickEditFlag = TRUE;
+			}
 			break;
-		case 0:		//0 prefix
-			if (KeyCount >= 0)	KeyCount--;	//Ignore keycount
+		//Ignore list
+		case VK_SHIFT:
+		case VK_CONTROL:
+		case VK_MENU:
+		case VK_CAPITAL:
 			break;
 		default:
-			printf("%c", key);
+			putchar(InRecord.Event.KeyEvent.uChar.AsciiChar);
 			PosX++;
 			break;
 		}
