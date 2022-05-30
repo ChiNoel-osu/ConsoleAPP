@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BoxAndLoadingAnimation", "C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TypeAnywhere", "..\TypeAnywhere\TypeAnywhere.vcxproj", "{4EFAF2D0-7DED-4ED5-9CF5-5F49A046DEDE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MouseEventThing", "..\MouseEventThing\MouseEventThing.vcxproj", "{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClickTheCursor", "..\MouseEventThing\MouseEventThing.vcxproj", "{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
