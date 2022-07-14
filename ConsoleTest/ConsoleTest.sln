@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TypeAnywhere", "..\TypeAnyw
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClickTheCursor", "..\MouseEventThing\MouseEventThing.vcxproj", "{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileManipulation", "..\FileManipulation\FileManipulation.vcxproj", "{456F11C1-494C-4139-A3BA-85C35E0DA8BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Release|x64.Build.0 = Release|x64
 		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Release|x86.ActiveCfg = Release|Win32
 		{4B04CFFB-9DBE-4B83-839E-A4467297FCA8}.Release|x86.Build.0 = Release|Win32
+		{456F11C1-494C-4139-A3BA-85C35E0DA8BA}.Debug|x64.ActiveCfg = Debug|x64
+		{456F11C1-494C-4139-A3BA-85C35E0DA8BA}.Debug|x64.Build.0 = Debug|x64
+		{456F11C1-494C-4139-A3BA-85C35E0DA8BA}.Debug|x86.ActiveCfg = Debug|Win32
+		{456F11C1-494C-4139-A3BA-85C35E0DA8BA}.Debug|x86.Build.0 = Debug|Win32
+		{456F11C1-494C-4139-A3BA-85C35E0DA8BA}.Release|x64.ActiveCfg = Release|x64
+		{456F11C1-494C-4139-A3BA-85C35E0DA8BA}.Release|x64.Build.0 = Release|x64
+		{456F11C1-494C-4139-A3BA-85C35E0DA8BA}.Release|x86.ActiveCfg = Release|Win32
+		{456F11C1-494C-4139-A3BA-85C35E0DA8BA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

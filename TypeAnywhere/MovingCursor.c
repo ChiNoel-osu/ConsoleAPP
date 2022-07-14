@@ -31,7 +31,7 @@ Start:
 				PosX = MousePos.X; PosY = MousePos.Y;	//Mouse click position = cursor position
 				gotoxy(PosX, PosY);
 			}
-			if (key = InRecord.Event.KeyEvent.wVirtualKeyCode)
+			if (key = InRecord.Event.KeyEvent.wVirtualKeyCode)	//Helps with "Shift" capital letter
 			{
 				if (InRecord.Event.KeyEvent.bKeyDown == FALSE)	continue;	//Ignore key release event
 				break;
