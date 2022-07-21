@@ -35,6 +35,7 @@ main()
 		case VK_RETURN:
 			fprintf(NewFile, "\n");
 			Row++;
+			Column = 1;
 			charCnt = 0;
 			break;
 		case VK_SHIFT:
@@ -48,7 +49,8 @@ main()
 			break;
 		}
 		system("cls");
-		Typing[charCnt-1] = actualKey;
+		if (charCnt > 0)
+			Typing[charCnt - 1] = actualKey;
 		printf("At Row %d|Col %d\nTyping in: %c\nThe cell's got: ", Row, Column, actualKey);
 		for (short i = 0; i < charCnt; i++)
 		{
